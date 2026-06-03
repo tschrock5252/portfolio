@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crowdstrike | Tyler Schrock</title>
+    <title>CrowdStrike | Tyler Schrock</title>
     <link rel="stylesheet" href="../css/responsive-attributes.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,10 +19,10 @@
     <main data-sm="1column gap" data-md="2column gap" data-lg="4column gap">
         <header data-sm="pad" data-md="colspan2" data-lg="colspan4 order1">
             <div data-sm="center" class="site-title">Tyler Schrock</div>
-            <p class="subtitle">{Platform, Site Reliability, DevOps, System} Engineer</p>
+            <p class="subtitle">Platform / Site Reliability / DevOps Engineer</p>
               <div class="social-icons">
-                <a href="https://github.com/tschrock5252" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/tschrock5252" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
               </div>
         </header>
 
@@ -35,7 +35,7 @@
                   <button class="accordion-toggle">Projects <i class="fas fa-chevron-down"></i></button>
                   <div class="accordion-content">
                     <a href="canonical_landscape.html" data-project>Canonical Landscape</a>
-                    <a href="crowdstrike.html" data-project>Crowdstrike</a>
+                    <a href="crowdstrike.html" data-project>CrowdStrike</a>
                     <a href="ibm_cdc.html" data-project>IBM Change Data Capture (CDC)</a>
                     <a href="jfrog_artifactory.html" data-project>JFrog Artifactory</a>
                     <a href="jfrog_xray.html" data-project>JFrog Xray</a>
@@ -44,86 +44,84 @@
                     <a href="zabbix_windows.html" data-project>Zabbix (Windows Monitoring)</a>
                   </div>
                 </div>
-                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank">LinkedIn</a>
-                <a href="https://github.com/tschrock5252" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/tschrock5252" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
         </section>
 
         <article data-sm="pad" data-md="colspan2">
-            <p>
-                <h2>Overview</h2>
-                    <p>
-                    Designed and implemented an automated deployment pipeline for CrowdStrike Falcon Sensor across a heterogeneous Linux environment supporting over 4,000 servers. 
-                    The solution ensured consistent, repeatable installation across multiple distributions and Puppet versions while maintaining control over artifact distribution and versioning.
-                    </p>
-                <h2>Key Highlights</h2>
-                    <ul>
-                    <li>Automated CrowdStrike deployment across multiple Linux distributions</li>
-                    <li>Deployed across thousands of Linux servers in a production environment</li>
-                    <li>Integrated AWX for scheduled artifact retrieval and pipeline orchestration</li>
-                    <li>Implemented Artifactory as a controlled distribution point for sensor packages</li>
-                    <li>Supported multiple Puppet generations across mixed Linux environments</li>
-                    <li>Ensured consistent versioning using SHA256-based artifact handling</li>
-                </ul>
-                <h2>Architecture Diagram</h2>
-                    <img src="../images/architecture_crowdstrike.png" alt="Crowdstrike Architecture" class="responsive-img zoomable-img" onclick="openImageModal(this.src, this.alt)">
-                    <p class="diagram-hint">Click diagram to enlarge.</p>
-                <h2>Architecture Explanation</h2>
-                    <p>
-                    The deployment pipeline was split into two primary stages to ensure reliability and control over software distribution:
-                    </p>
-                    <ul>
-                        <li>
-                            <b>Artifact Acquisition & Normalization:</b><br>
-                            Automation was used to retrieve, validate, and stage approved endpoint security packages. 
-                            Files were validated using SHA256 hashes, normalized into consistent naming conventions, and stored in Artifactory.
-                        </li>
-                        <li>
-                            <b>Deployment & Enforcement:</b><br>
-                            Puppet was used to install and enforce the desired state of the CrowdStrike agent across Linux systems. 
-                            The module dynamically referenced the correct package based on OS distribution and version.
-                        </li>
-                    </ul>
-                    <p>
-                    This separation ensured that endpoint systems did not rely on external vendor availability and allowed centralized control over approved software versions.
-                    </p>
-                <h2>Implementation Approach</h2>
-                    <p>
-                    Due to proprietary constraints, source code for AWX and Puppet configurations cannot be publicly shared. 
-                    However, the solution included:
-                    </p>
-                    <ul>
-                        <li>AWX playbooks for automated artifact retrieval and processing</li>
-                        <li>Custom logic to normalize vendor-provided package naming</li>
-                        <li>Puppet modules to enforce installation state across distributions</li>
-                        <li>Integration with Artifactory for controlled package distribution</li>
-                    </ul>
-                <h2>Challenges & Solutions</h2>
-                    <ul>
-                        <li>
-                            <b>Problem:</b> Vendor packages had inconsistent naming and versioning<br>
-                            <b>Solution:</b> Implemented SHA256-based normalization and consistent naming in Artifactory
-                        </li>
-                        <li>
-                            <b>Problem:</b> Multiple Puppet versions across environments<br>
-                            <b>Solution:</b> Designed modules compatible with Puppet 4, 6, and 8
-                        </li>
-                        <li>
-                            <b>Problem:</b> Direct vendor downloads introduce external dependency risk<br>
-                            <b>Solution:</b> Centralized artifact storage in Artifactory for reliability and control
-                        </li>
-                    </ul>
-                <h2>Outcome</h2>
-                    <p>
-                    Standardized CrowdStrike deployment across all supported Linux platforms, eliminating manual installs and ensuring consistent, controlled rollout of approved sensor versions.
-                    </p>
-            </p>
+          <h2>Overview</h2>
+              <p>
+              Designed and implemented an automated deployment pipeline for CrowdStrike Falcon Sensor across a heterogeneous Linux environment supporting over 4,000 servers. 
+              The solution ensured consistent, repeatable installation across multiple distributions and Puppet versions while maintaining control over artifact distribution and versioning.
+              </p>
+          <h2>Key Highlights</h2>
+              <ul>
+              <li>Automated CrowdStrike deployment across multiple Linux distributions</li>
+              <li>Deployed across thousands of Linux servers in a production environment</li>
+              <li>Integrated AWX for scheduled artifact retrieval and pipeline orchestration</li>
+              <li>Implemented Artifactory as a controlled distribution point for sensor packages</li>
+              <li>Supported multiple Puppet generations across mixed Linux environments</li>
+              <li>Ensured consistent versioning using SHA256-based artifact handling</li>
+          </ul>
+          <h2>Architecture Diagram</h2>
+              <img src="../images/architecture_crowdstrike.png" alt="CrowdStrike Architecture" class="responsive-img zoomable-img" onclick="openImageModal(this.src, this.alt)">
+              <p class="diagram-hint">Click diagram to enlarge.</p>
+          <h2>Architecture Explanation</h2>
+              <p>
+              The deployment pipeline was split into two primary stages to ensure reliability and control over software distribution:
+              </p>
+              <ul>
+                  <li>
+                      <b>Artifact Acquisition & Normalization:</b><br>
+                      Automation was used to retrieve, validate, and stage approved endpoint security packages. 
+                      Files were validated using SHA256 hashes, normalized into consistent naming conventions, and stored in Artifactory.
+                  </li>
+                  <li>
+                      <b>Deployment & Enforcement:</b><br>
+                      Puppet was used to install and enforce the desired state of the CrowdStrike agent across Linux systems. 
+                      The module dynamically referenced the correct package based on OS distribution and version.
+                  </li>
+              </ul>
+              <p>
+              This separation ensured that endpoint systems did not rely on external vendor availability and allowed centralized control over approved software versions.
+              </p>
+          <h2>Implementation Approach</h2>
+              <p>
+              Due to proprietary constraints, source code for AWX and Puppet configurations cannot be publicly shared. 
+              However, the solution included:
+              </p>
+              <ul>
+                  <li>AWX playbooks for automated artifact retrieval and processing</li>
+                  <li>Custom logic to normalize vendor-provided package naming</li>
+                  <li>Puppet modules to enforce installation state across distributions</li>
+                  <li>Integration with Artifactory for controlled package distribution</li>
+              </ul>
+          <h2>Challenges & Solutions</h2>
+              <ul>
+                  <li>
+                      <b>Problem:</b> Vendor packages had inconsistent naming and versioning<br>
+                      <b>Solution:</b> Implemented SHA256-based normalization and consistent naming in Artifactory
+                  </li>
+                  <li>
+                      <b>Problem:</b> Multiple Puppet versions across environments<br>
+                      <b>Solution:</b> Designed modules compatible with Puppet 4, 6, and 8
+                  </li>
+                  <li>
+                      <b>Problem:</b> Direct vendor downloads introduce external dependency risk<br>
+                      <b>Solution:</b> Centralized artifact storage in Artifactory for reliability and control
+                  </li>
+              </ul>
+          <h2>Outcome</h2>
+              <p>
+              Standardized CrowdStrike deployment across all supported Linux platforms, eliminating manual installs and ensuring consistent, controlled rollout of approved sensor versions.
+              </p>
         </article>
 
         <aside data-sm="pad">
             <section class="resume-section">
               <h2>Résumé</h2>
-              <a href="../files/tyler_schrock_resume.pdf" target="_blank" class="resume-link">
+              <a href="../files/tyler_schrock_resume.pdf" target="_blank" class="resume-link" rel="noopener noreferrer">
                 <i data-lucide="file-text"></i>
                 <span>View PDF</span>
               </a>

@@ -15,34 +15,34 @@
     <main data-sm="1column gap" data-md="2column gap" data-lg="4column gap">
         <header data-sm="pad" data-md="colspan2" data-lg="colspan4 order1">
             <div data-sm="center" class="site-title">Tyler Schrock</div>
-            <p class="subtitle">{Platform, Site Reliability, DevOps, System} Engineer</p>
+            <p class="subtitle">Platform / Site Reliability / DevOps Engineer</p>
               <div class="social-icons">
-                <a href="https://github.com/tschrock5252" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/tschrock5252" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
               </div>
         </header>
 
         <section class="menu-container" data-sm="pad" data-lg="order2">
-            <div class="menu">
-                <a href="index.html">Home</a>
-                <a href="about_me.html">About Me</a>
-                <a href="site_architecture.html">Site Architecture</a>
-                <div class="accordion">
-                  <button class="accordion-toggle">Projects <i class="fas fa-chevron-down"></i></button>
-                  <div class="accordion-content">
-                    <a href="projects/canonical_landscape.html" data-project>Canonical Landscape</a>
-                    <a href="projects/crowdstrike.html" data-project>Crowdstrike</a>
-                    <a href="projects/ibm_cdc.html" data-project>IBM Change Data Capture (CDC)</a>
-                    <a href="projects/jfrog_artifactory.html" data-project>JFrog Artifactory</a>
-                    <a href="projects/jfrog_xray.html" data-project>JFrog Xray</a>
-                    <a href="projects/openvpn_as.html" data-project>OpenVPN (Access Server)</a>
-                    <a href="projects/zabbix_snmp.html" data-project>Zabbix (SNMP Monitoring)</a>
-                    <a href="projects/zabbix_windows.html" data-project>Zabbix (Windows Monitoring)</a>
-                  </div>
+          <div class="menu">
+              <a href="index.html">Home</a>
+              <a href="about_me.html">About Me</a>
+              <a href="site_architecture.html">Site Architecture</a>
+              <div class="accordion">
+                <button class="accordion-toggle">Projects <i class="fas fa-chevron-down"></i></button>
+                <div class="accordion-content">
+                  <a href="projects/canonical_landscape.html" data-project>Canonical Landscape</a>
+                  <a href="projects/crowdstrike.html" data-project>CrowdStrike</a>
+                  <a href="projects/ibm_cdc.html" data-project>IBM Change Data Capture (CDC)</a>
+                  <a href="projects/jfrog_artifactory.html" data-project>JFrog Artifactory</a>
+                  <a href="projects/jfrog_xray.html" data-project>JFrog Xray</a>
+                  <a href="projects/openvpn_as.html" data-project>OpenVPN (Access Server)</a>
+                  <a href="projects/zabbix_snmp.html" data-project>Zabbix (SNMP Monitoring)</a>
+                  <a href="projects/zabbix_windows.html" data-project>Zabbix (Windows Monitoring)</a>
                 </div>
-                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank">LinkedIn</a>
-                <a href="https://github.com/tschrock5252" target="_blank">GitHub</a>
-            </div>
+              </div>
+              <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+              <a href="https://github.com/tschrock5252" target="_blank" rel="noopener noreferrer">GitHub</a>
+          </div>
         </section>
 
         <article data-sm="pad" data-md="colspan2">
@@ -52,12 +52,67 @@
             <p>
               If you'd like to connect or have any questions, feel free to use the Contact Me form. I appreciate your time and interest — and I look forward to hearing from you.
             </p>
+            <section class="featured-projects">
+            <h2>Featured Projects</h2>
+
+            <article class="featured-project">
+              <h3>CrowdStrike Falcon Deployment Automation</h3>
+              <p>
+                Designed and implemented an automated deployment pipeline for CrowdStrike Falcon Sensor across more than 4,000 Linux servers spanning
+                multiple distributions and Puppet versions.
+              </p>
+              <p>
+                The solution used AWX, Puppet, Artifactory, and SHA256-based package handling to standardize endpoint security deployment, reduce manual
+                installation effort, and ensure controlled rollout of approved sensor versions.
+              </p>
+              <a href="projects/crowdstrike.html">View project</a>
+            </article>
+
+            <article class="featured-project">
+              <h3>OpenVPN Access Server for Vendor Segmentation</h3>
+              <p>
+                Designed and implemented a secure OpenVPN Access Server platform for external vendor access, integrating Okta authentication with local
+                administrative separation and vendor-specific network boundaries.
+              </p>
+              <p>
+                The platform reduced third-party access risk by limiting vendors to approved internal resources, while custom Icinga monitoring improved
+                service visibility and reduced noisy alerts.
+              </p>
+              <a href="projects/openvpn_as.html">View project</a>
+            </article>
+
+            <article class="featured-project">
+              <h3>JFrog Artifactory and Xray Platform</h3>
+              <p>
+                Built and supported a multi-environment artifact management and security scanning platform using JFrog Artifactory, Xray, PostgreSQL,
+                federated repositories, and controlled repository promotion workflows.
+              </p>
+              <p>
+                The platform improved build reliability, reduced external dependency risk, enabled software supply chain visibility, and established a
+                scalable foundation for artifact governance and vulnerability scanning.
+              </p>
+              <a href="projects/jfrog_artifactory.html">View Artifactory project</a>
+            </article>
+
+            <article class="featured-project">
+              <h3>Zabbix Monitoring Standardization</h3>
+              <p>
+                Implemented standardized monitoring for Linux, SNMP-enabled infrastructure, and Windows systems using Zabbix, PostgreSQL, Puppet
+                automation, SNMP traps, and Group Policy deployment.
+              </p>
+              <p>
+                The work improved monitoring consistency, centralized operational visibility, reduced manual configuration, and created repeatable
+                patterns for infrastructure health checks and alerting.
+              </p>
+              <a href="projects/zabbix_snmp.html">View SNMP project</a>
+            </article>
+          </section>
         </article>
 
         <aside data-sm="pad">
           <section class="resume-section">
             <h2>Résumé</h2>
-            <a href="files/tyler_schrock_resume.pdf" target="_blank" class="resume-link">
+            <a href="files/tyler_schrock_resume.pdf" target="_blank" class="resume-link" rel="noopener noreferrer">
               <i data-lucide="file-text"></i>
               <span>View PDF</span>
             </a>

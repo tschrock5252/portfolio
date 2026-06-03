@@ -16,10 +16,10 @@
     <main data-sm="1column gap" data-md="2column gap" data-lg="4column gap">
         <header data-sm="pad" data-md="colspan2" data-lg="colspan4 order1">
             <div data-sm="center" class="site-title">Tyler Schrock</div>
-            <p class="subtitle">{Platform, Site Reliability, DevOps, System} Engineer</p>
+            <p class="subtitle">Platform / Site Reliability / DevOps Engineer</p>
               <div class="social-icons">
-                <a href="https://github.com/tschrock5252" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="https://github.com/tschrock5252" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
               </div>
         </header>
 
@@ -32,7 +32,7 @@
                   <button class="accordion-toggle">Projects <i class="fas fa-chevron-down"></i></button>
                   <div class="accordion-content">
                     <a href="canonical_landscape.html" data-project>Canonical Landscape</a>
-                    <a href="crowdstrike.html" data-project>Crowdstrike</a>
+                    <a href="crowdstrike.html" data-project>CrowdStrike</a>
                     <a href="ibm_cdc.html" data-project>IBM Change Data Capture (CDC)</a>
                     <a href="jfrog_artifactory.html" data-project>JFrog Artifactory</a>
                     <a href="jfrog_xray.html" data-project>JFrog Xray</a>
@@ -41,8 +41,8 @@
                     <a href="zabbix_windows.html" data-project>Zabbix (Windows Monitoring)</a>
                   </div>
                 </div>
-                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank">LinkedIn</a>
-                <a href="https://github.com/tschrock5252" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+                <a href="https://github.com/tschrock5252" target="_blank" rel="noopener noreferrer">GitHub</a>
             </div>
         </section>
 
@@ -110,7 +110,7 @@
                         <h5>snmptrapd (Service)</h5>
                         <ul>
                             <li>snmptrapd listens on port 162 and responds to any incoming SNMP traps that are sent to it from Devices Requiring SNMP Monitoring on the network.</li>
-                            <li>It should be noted that, while there are many ways to process these traps, Zabbix recommends using the <a href="https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/misc/snmptrap/zabbix_trap_receiver.pl" target="_blank">zabbix_trap_receiver.pl</a>. I followed their best practices for this.
+                            <li>It should be noted that, while there are many ways to process these traps, Zabbix recommends using the <a href="https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/misc/snmptrap/zabbix_trap_receiver.pl" target="_blank" rel="noopener noreferrer">zabbix_trap_receiver.pl</a>. I followed their best practices for this.
                             <li>The snmptrapd service logs to the file at /var/log/snmptrapd.log
                             <li>zabbix_trap_receiver.pl was set up to log to /var/log/snmptraps/snmptraps.log - From here, incoming SNMP traps can be viewed. Also, any issues with the zabbix_trap_receiver.pl can be seen during execution.</li>
                         </ul>
@@ -149,7 +149,7 @@
                             I specifically architected it around this configuration: <a href="https://github.com/voxpupuli/puppet-zabbix/wiki/Multi-node-Zabbix-Server-setup" target="_blank">Multi node Zabbix Server setup</a>
                         </p>
                         <p>
-                            The authors detail various methods on this page for installing Zabbix. I chose the <a href="https://github.com/voxpupuli/puppet-zabbix/wiki/Multi-node-Zabbix-Server-setup#2-servers" target="_blank">2-server configuration with PostgreSQL as the database backend.</a>
+                            The authors detail various methods on this page for installing Zabbix. I chose the <a href="https://github.com/voxpupuli/puppet-zabbix/wiki/Multi-node-Zabbix-Server-setup#2-servers" target="_blank" rel="noopener noreferrer">2-server configuration with PostgreSQL as the database backend.</a>
                         </p>
                     </div>
                     <h2>Challenges & Solutions</h2>
@@ -180,7 +180,7 @@
         <aside data-sm="pad">
           <section class="resume-section">
             <h2>Résumé</h2>
-            <a href="../files/tyler_schrock_resume.pdf" target="_blank" class="resume-link">
+            <a href="../files/tyler_schrock_resume.pdf" target="_blank" class="resume-link" rel="noopener noreferrer">
               <i data-lucide="file-text"></i>
               <span>View PDF</span>
             </a>

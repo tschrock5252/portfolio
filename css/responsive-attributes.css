@@ -157,6 +157,47 @@ aside h2 {
   height: 20px;
 }
 
+/* Featured projects */
+.featured-projects {
+  display: grid;
+  gap: 18px;
+  margin-top: 1.5rem;
+}
+
+.featured-projects > h2 {
+  margin-bottom: 0;
+}
+
+.featured-project {
+  background-color: #f4f6f8;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.featured-project h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.featured-project p {
+  margin: 0 0 0.85rem 0;
+}
+
+.featured-project a {
+  display: inline-block;
+  color: #2c3e50;
+  font-weight: 700;
+  text-decoration: none;
+  border-bottom: 2px solid #2870a1;
+}
+
+.featured-project a:hover,
+.featured-project a:focus {
+  color: #2870a1;
+}
+
 /* Accordion styling */
 .accordion {
   width: 100%;
