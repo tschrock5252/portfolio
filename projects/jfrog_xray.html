@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JFrog Xray | Tyler Schrock</title>
+    <link rel="stylesheet" href="../css/responsive-attributes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <main data-sm="1column gap" data-md="2column gap" data-lg="4column gap">
+        <header data-sm="pad" data-md="colspan2" data-lg="colspan4 order1">
+            <div data-sm="center" class="site-title">Tyler Schrock</div>
+            <p class="subtitle">{Platform, Site Reliability, DevOps, System} Engineer</p>
+              <div class="social-icons">
+                <a href="https://github.com/tschrock5252" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank"><i class="fab fa-linkedin"></i></a>
+              </div>
+        </header>
+
+        <section class="menu-container" data-sm="pad" data-lg="order2">
+            <div class="menu">
+                <a href="../index.html">Home</a>
+                <a href="../about_me.html">About Me</a>
+                <a href="../site_architecture.html">Site Architecture</a>
+                <div class="accordion">
+                  <button class="accordion-toggle">Projects <i class="fas fa-chevron-down"></i></button>
+                  <div class="accordion-content">
+                    <a href="canonical_landscape.html" data-project>Canonical Landscape</a>
+                    <a href="crowdstrike.html" data-project>Crowdstrike</a>
+                    <a href="ibm_cdc.html" data-project>IBM Change Data Capture (CDC)</a>
+                    <a href="jfrog_artifactory.html" data-project>JFrog Artifactory</a>
+                    <a href="jfrog_xray.html" data-project>JFrog Xray</a>
+                    <a href="openvpn_as.html" data-project>OpenVPN (Access Server)</a>
+                    <a href="zabbix_snmp.html" data-project>Zabbix (SNMP Monitoring)</a>
+                    <a href="zabbix_windows.html" data-project>Zabbix (Windows Monitoring)</a>
+                  </div>
+                </div>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/tschrock5252" target="_blank">GitHub</a>
+            </div>
+        </section>
+
+        <article data-sm="pad" data-md="colspan2">
+            <h2>Overview</h2>
+              <p>
+              Built and integrated a JFrog Xray platform to provide security scanning, vulnerability analysis, and policy enforcement across artifacts stored within an enterprise Artifactory ecosystem. The solution enabled continuous visibility into software components, ensuring that both internally built artifacts and externally sourced dependencies were evaluated for security risks.
+              </p>
+              <p>
+              Xray was tightly integrated with the existing Artifactory platform to scan artifacts at rest and during pipeline workflows, enforcing organizational security policies and supporting vulnerability-aware promotion workflows across environments.
+              </p>
+            <h2>Key Highlights</h2>
+              <ul>
+                <li>Deployed and configured JFrog Xray integrated with enterprise Artifactory environments</li>
+                <li>Implemented automated vulnerability scanning for both internal artifacts and external dependencies</li>
+                <li>Designed policy-based enforcement to block promotion of artifacts with critical vulnerabilities</li>
+                <li>Integrated Xray with federated repositories to ensure consistent scanning across environments</li>
+                <li>Configured indexing and analysis workflows to handle high-volume artifact scanning</li>
+                <li>Provided centralized visibility into software supply chain risks across the organization</li>
+              </ul>
+            <h2>Architecture Diagram</h2>
+              <img src="../images/architecture_artifactory_xray.png" alt="JFrog Artifactory and Xray Architecture" class="responsive-img zoomable-img" onclick="openImageModal(this.src, this.alt)">
+              <p class="diagram-hint">Click diagram to enlarge.</p>
+            <h2>Architecture Explanation</h2>
+              <p>
+              JFrog Xray was deployed as a distributed microservices-based platform integrated directly with Artifactory to provide continuous security analysis of stored artifacts. The system leveraged background indexing processes to scan artifacts and their dependencies, building a comprehensive vulnerability database across all repositories.
+              </p>
+              <p>
+              Xray analyzed artifacts using known vulnerability databases and recursively inspected dependencies, allowing for full software bill-of-materials (SBOM) visibility. Policy enforcement mechanisms were configured to evaluate artifacts against organizational security thresholds, preventing vulnerable components from being promoted across environments.
+              </p>
+              <p>
+              The platform utilized internal messaging and processing services to handle asynchronous scanning and analysis workloads, ensuring scalability and responsiveness even under high artifact throughput.
+              </p>
+            <h2>Challenges and Solutions</h2>
+              <ul>
+                <li>
+                  <strong>Problem:</strong> High volume of artifacts requiring continuous scanning created performance and indexing challenges<br>
+                  <strong>Solution:</strong> Tuned Xray indexing and analysis workflows to efficiently process artifacts at scale while maintaining timely vulnerability detection
+                </li>
+                <li>
+                  <strong>Problem:</strong> Need to enforce security policies without disrupting development workflows<br>
+                  <strong>Solution:</strong> Implemented policy-based gating aligned with artifact promotion stages, allowing flexibility in lower environments while enforcing strict controls in production
+                </li>
+                <li>
+                  <strong>Problem:</strong> Ensuring consistent vulnerability visibility across federated and replicated repositories<br>
+                  <strong>Solution:</strong> Integrated Xray scanning with federated repository architecture to maintain consistent analysis results across all environments
+                </li>
+                <li>
+                  <strong>Problem:</strong> Limited visibility into transitive dependencies and third-party risks<br>
+                  <strong>Solution:</strong> Leveraged Xray’s recursive dependency analysis to provide full visibility into software supply chains and identify hidden vulnerabilities
+                </li>
+              </ul>
+            <h2>Outcome</h2>
+            <p>
+            Delivered a comprehensive security scanning platform that provided continuous visibility into vulnerabilities across all software artifacts and dependencies. The implementation enabled proactive risk identification, improved compliance posture, and reduced the likelihood of vulnerable components reaching production environments.
+            </p>
+            <p>
+            By integrating Xray with the organization’s artifact management and CI/CD workflows, the platform established a scalable foundation for secure software supply chain practices and DevSecOps adoption.
+            </p>
+        </article>
+
+        <aside data-sm="pad">
+          <section class="resume-section">
+            <h2>Résumé</h2>
+            <a href="../files/tyler_schrock_resume.pdf" target="_blank" class="resume-link">
+              <i data-lucide="file-text"></i>
+              <span>View PDF</span>
+            </a>
+          </section>
+          <section class="contact-section">
+            <h2>Contact Me</h2>
+            <form action="https://formspree.io/f/xeogabpa" method="POST">
+              <input type="text" name="name" required placeholder="Your Name">
+              <input type="email" name="email" required placeholder="Your Email">
+              <textarea name="message" required placeholder="Your Message"></textarea>
+              <button type="submit">Send</button>
+            </form>
+          </section>
+        
+          <section class="disclaimer">
+            <p>
+              This portfolio includes generalized summaries of projects I contributed to professionally. Proprietary code, credentials, and infrastructure details have been excluded.
+            </p>
+          </section>
+      </aside>
+
+        <footer data-sm="pad" data-md="colspan2" data-lg="colspan4">
+            Copyright &copy; 2026 - Tyler Schrock
+        </footer>
+    </main>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.accordion-toggle');
+    const content = document.querySelector('.accordion-content');
+    const icon = toggle.querySelector('i');
+
+    // Load the user's preference
+    const accordionState = localStorage.getItem('accordionState');
+
+    // Apply the state visually
+    if (accordionState === 'open') {
+      content.style.display = 'block';
+      icon.classList.remove('fa-chevron-down');
+      icon.classList.add('fa-chevron-up');
+    } else {
+      content.style.display = 'none';
+      icon.classList.remove('fa-chevron-up');
+      icon.classList.add('fa-chevron-down');
+    }
+
+    // Handle user toggling the accordion
+    toggle.addEventListener('click', () => {
+      const isOpen = content.style.display === 'block';
+      const newState = isOpen ? 'closed' : 'open';
+
+      content.style.display = isOpen ? 'none' : 'block';
+      localStorage.setItem('accordionState', newState);
+
+      icon.classList.toggle('fa-chevron-down');
+      icon.classList.toggle('fa-chevron-up');
+    });
+  });
+</script>
+<script>
+  lucide.createIcons();
+</script>
+<div id="imageModal" class="image-modal">
+  <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
+  <img id="imageModalImg" src="" alt="">
+</div>
+<script>
+  function openImageModal(src, alt) {
+    const modal = document.getElementById('imageModal');
+    const img = document.getElementById('imageModalImg');
+
+    if (!modal || !img) {
+      console.error('Image modal missing:', { modal, img });
+      return;
+    }
+
+    img.src = src;
+    img.alt = alt || 'Expanded image';
+    modal.classList.add('active');
+  }
+
+  function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') closeImageModal();
+  });
+</script>
+</body>
+</html>

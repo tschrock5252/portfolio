@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBM CDC | Tyler Schrock</title>
+    <link rel="stylesheet" href="../css/responsive-attributes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <main data-sm="1column gap" data-md="2column gap" data-lg="4column gap">
+        <header data-sm="pad" data-md="colspan2" data-lg="colspan4 order1">
+            <div data-sm="center" class="site-title">Tyler Schrock</div>
+            <p class="subtitle">{Platform, Site Reliability, DevOps, System} Engineer</p>
+              <div class="social-icons">
+                <a href="https://github.com/tschrock5252" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank"><i class="fab fa-linkedin"></i></a>
+              </div>
+        </header>
+
+        <section class="menu-container" data-sm="pad" data-lg="order2">
+            <div class="menu">
+                <a href="../index.html">Home</a>
+                <a href="../about_me.html">About Me</a>
+                <a href="../site_architecture.html">Site Architecture</a>
+                <div class="accordion">
+                  <button class="accordion-toggle">Projects <i class="fas fa-chevron-down"></i></button>
+                  <div class="accordion-content">
+                    <a href="canonical_landscape.html" data-project>Canonical Landscape</a>
+                    <a href="crowdstrike.html" data-project>Crowdstrike</a>
+                    <a href="ibm_cdc.html" data-project>IBM Change Data Capture (CDC)</a>
+                    <a href="jfrog_artifactory.html" data-project>JFrog Artifactory</a>
+                    <a href="jfrog_xray.html" data-project>JFrog Xray</a>
+                    <a href="openvpn_as.html" data-project>OpenVPN (Access Server)</a>
+                    <a href="zabbix_snmp.html" data-project>Zabbix (SNMP Monitoring)</a>
+                    <a href="zabbix_windows.html" data-project>Zabbix (Windows Monitoring)</a>
+                  </div>
+                </div>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/tschrock5252" target="_blank">GitHub</a>
+            </div>
+        </section>
+
+        <article data-sm="pad" data-md="colspan2">
+            <h2>Overview</h2>
+				<p>
+				Designed and implemented an IBM CDC (Change Data Capture) replication platform to enable real-time data synchronization between source and target systems. 
+				The solution supported complex enterprise data flows, including database replication, message-based delivery, and ETL integrations.
+				</p>
+			<h2>Key Highlights</h2>
+			<ul>
+			<li>Implemented enterprise CDC replication across multiple database systems</li>
+			<li>Configured real-time data streaming between source and target environments</li>
+			<li>Integrated replication with DB2, JMS messaging, and ETL pipelines</li>
+			<li>Designed and managed replication instances, mappings, and transformations</li>
+			<li>Automated service management and operational workflows</li>
+			</ul>
+			<h2>Architecture Diagram</h2>
+				<p>The following diagram illustrates the key components of CDC Replication.</p>
+				<img src="../images/architecture_cdc.jpg" alt="CDC Architecture" class="responsive-img zoomable-img" onclick="openImageModal(this.src, this.alt)">
+        <p class="diagram-hint">Click diagram to enlarge.</p>
+				<p>The key components of the IBM Data Replication architecture are described in the following list:</p>
+      <h2>Core Components</h2>
+				<ul>
+				<li><b>Access Server:</b> Central control plane for managing replication environments</li>
+				<li><b>Source Engine:</b> Captures and processes database changes from source systems</li>
+				<li><b>Target Engine:</b> Applies replicated data to downstream systems</li>
+				<li><b>Communication Layer:</b> Handles TCP/IP-based data transfer between systems</li>
+				</ul>
+				<p>There are two types of target-only destinations for replication that are not databases:</p>
+				<ul>
+					<li>JMS Messages - Acts as a JMS message destination (queue or topic) for row-level operations that are created as XML documents.
+					<li>IBM DataStage - Processes changes delivered from CDC Replication that can be used by IBM DataStage jobs.
+				</ul>
+			<h2>User Accounts</h2>
+				<p>A dedicated local service account was used to ensure consistent execution of replication processes where root and directory-backed accounts created operational limitations.</p>p>
+			<h2>Implementation Approach</h2>
+				<ul>
+					<li>Installed and configured CDC replication engines for both source and target systems</li>
+					<li>Configured DB2 client dependencies and connectivity requirements</li>
+					<li>Established replication instances and communication channels</li>
+					<li>Defined mappings, subscriptions, and replication flows</li>
+					<li>Integrated with messaging systems and downstream data consumers</li>
+				</ul>
+			<h2>Challenges & Solutions</h2>
+			<ul>
+				<li>
+					<b>Problem:</b> High complexity of CDC configuration across multiple systems<br>
+					<b>Solution:</b> Standardized installation and configuration processes across environments
+				</li>
+				<li>
+					<b>Problem:</b> Dependency on DB2 client and strict installation requirements<br>
+					<b>Solution:</b> Developed repeatable setup procedures to ensure consistent deployments
+				</li>
+				<li>
+					<b>Problem:</b> Ensuring reliable communication between source and target systems<br>
+					<b>Solution:</b> Configured and validated TCP/IP and messaging-based communication paths
+				</li>
+				<li>
+					<b>Problem:</b> Managing replication state and service lifecycle<br>
+					<b>Solution:</b> Implemented systemd-based service control and automation scripts
+				</li>
+			</ul>
+			<h2>Outcome</h2>
+				<p>
+				Delivered a reliable CDC replication platform enabling real-time data synchronization across enterprise systems. 
+				Reduced latency in downstream data pipelines and provided a scalable foundation for data integration and analytics.
+				</p>
+        </article>
+
+        <aside data-sm="pad">
+          <section class="resume-section">
+            <h2>Résumé</h2>
+            <a href="../files/tyler_schrock_resume.pdf" target="_blank" class="resume-link">
+              <i data-lucide="file-text"></i>
+              <span>View PDF</span>
+            </a>
+          </section>
+          <section class="contact-section">
+            <h2>Contact Me</h2>
+            <form action="https://formspree.io/f/xeogabpa" method="POST">
+              <input type="text" name="name" required placeholder="Your Name">
+              <input type="email" name="email" required placeholder="Your Email">
+              <textarea name="message" required placeholder="Your Message"></textarea>
+              <button type="submit">Send</button>
+            </form>
+          </section>
+        
+          <section class="disclaimer">
+            <p>
+              This portfolio includes generalized summaries of projects I contributed to professionally. Proprietary code, credentials, and infrastructure details have been excluded.
+            </p>
+          </section>
+      </aside>
+
+        <footer data-sm="pad" data-md="colspan2" data-lg="colspan4">
+            Copyright &copy; 2026 - Tyler Schrock
+        </footer>
+    </main>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.accordion-toggle');
+    const content = document.querySelector('.accordion-content');
+    const icon = toggle.querySelector('i');
+
+    // Load the user's preference
+    const accordionState = localStorage.getItem('accordionState');
+
+    // Apply the state visually
+    if (accordionState === 'open') {
+      content.style.display = 'block';
+      icon.classList.remove('fa-chevron-down');
+      icon.classList.add('fa-chevron-up');
+    } else {
+      content.style.display = 'none';
+      icon.classList.remove('fa-chevron-up');
+      icon.classList.add('fa-chevron-down');
+    }
+
+    // Handle user toggling the accordion
+    toggle.addEventListener('click', () => {
+      const isOpen = content.style.display === 'block';
+      const newState = isOpen ? 'closed' : 'open';
+
+      content.style.display = isOpen ? 'none' : 'block';
+      localStorage.setItem('accordionState', newState);
+
+      icon.classList.toggle('fa-chevron-down');
+      icon.classList.toggle('fa-chevron-up');
+    });
+  });
+</script>
+<script>
+  lucide.createIcons();
+</script>
+<div id="imageModal" class="image-modal">
+  <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
+  <img id="imageModalImg" src="" alt="">
+</div>
+<script>
+  function openImageModal(src, alt) {
+    const modal = document.getElementById('imageModal');
+    const img = document.getElementById('imageModalImg');
+
+    if (!modal || !img) {
+      console.error('Image modal missing:', { modal, img });
+      return;
+    }
+
+    img.src = src;
+    img.alt = alt || 'Expanded image';
+    modal.classList.add('active');
+  }
+
+  function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') closeImageModal();
+  });
+</script>
+</body>
+</html>

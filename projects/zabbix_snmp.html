@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zabbix - SNMP | Tyler Schrock</title>
+    <link rel="stylesheet" href="../css/responsive-attributes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <main data-sm="1column gap" data-md="2column gap" data-lg="4column gap">
+        <header data-sm="pad" data-md="colspan2" data-lg="colspan4 order1">
+            <div data-sm="center" class="site-title">Tyler Schrock</div>
+            <p class="subtitle">{Platform, Site Reliability, DevOps, System} Engineer</p>
+              <div class="social-icons">
+                <a href="https://github.com/tschrock5252" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank"><i class="fab fa-linkedin"></i></a>
+              </div>
+        </header>
+
+        <section class="menu-container" data-sm="pad" data-lg="order2">
+            <div class="menu">
+                <a href="../index.html">Home</a>
+                <a href="../about_me.html">About Me</a>
+                <a href="../site_architecture.html">Site Architecture</a>
+                <div class="accordion">
+                  <button class="accordion-toggle">Projects <i class="fas fa-chevron-down"></i></button>
+                  <div class="accordion-content">
+                    <a href="canonical_landscape.html" data-project>Canonical Landscape</a>
+                    <a href="crowdstrike.html" data-project>Crowdstrike</a>
+                    <a href="ibm_cdc.html" data-project>IBM Change Data Capture (CDC)</a>
+                    <a href="jfrog_artifactory.html" data-project>JFrog Artifactory</a>
+                    <a href="jfrog_xray.html" data-project>JFrog Xray</a>
+                    <a href="openvpn_as.html" data-project>OpenVPN (Access Server)</a>
+                    <a href="zabbix_snmp.html" data-project>Zabbix (SNMP Monitoring)</a>
+                    <a href="zabbix_windows.html" data-project>Zabbix (Windows Monitoring)</a>
+                  </div>
+                </div>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/tschrock5252" target="_blank">GitHub</a>
+            </div>
+        </section>
+
+        <article data-sm="pad" data-md="colspan2">
+            <p>
+                <h2>Overview</h2>
+                    <p>
+                    Designed and implemented a Zabbix-based monitoring solution for network devices that lacked support for traditional monitoring methods. 
+                    The solution leveraged SNMP polling and trap-based monitoring to provide real-time visibility and alerting across the environment.
+                    </p>
+                <h2>Key Highlights</h2>
+                <ul>
+                    <li>Designed SNMP-based monitoring for devices without native agent support</li>
+                    <li>Deployed across several hundred network devices requiring SNMP-based monitoring</li>
+                    <li>Implemented both polling and trap-based monitoring strategies</li>
+                    <li>Integrated Zabbix with PagerDuty and email alerting systems</li>
+                    <li>Built custom Puppet wrapper modules to extend upstream Zabbix modules</li>
+                    <li>Automated deployment and configuration of monitoring infrastructure</li>
+                </ul>
+                <h2>Architecture Diagram(s)</h2>
+                    <img src="../images/architecture_zabbix_snmp.png" alt="Zabbix Architecture" class="responsive-img zoomable-img" onclick="openImageModal(this.src, this.alt)">
+                    <p class="diagram-hint">Click diagram to enlarge.</p>
+                <h3>Architecture Explanation</h3>
+                    <div class="section-block">
+                        <h4>
+                            Devices Requiring SNMP Monitoring
+                        </h4>
+                        <h5>SNMP Traps</h5>
+                        <ul>
+                            <li>These devices send SNMP traps on hardware failures to the CNAME clean-zabbix-cname.company.com. This CNAME points to the Zabbix Server.</li>
+                            <li><strong>Note</strong>: SNMP traps are a 1-way communication.</li>
+                        </ul>
+                        <h5>SNMP Polling</h5>
+                        <ul>
+                            <li>These devices receive SNMP polling communication/requests from the Zabbix Server.</li>
+                            <li>These devices reply to this SNMP polling with details needed to confirm hardware stats, etc.</li>
+                        </ul>
+                    </div>
+                    <div class="section-block">
+                        <h4>
+                            CNAME
+                        </h4>
+                        <p>
+                            The CNAME has two purposes:
+                        </p>
+                        <ol>
+                            <li>Facilitating a clean and easy-to-remember name for the Zabbix Server across the network (for web access, ticketing, etc).</li>
+                            <li>Allowing for the migration/transition to a new Zabbix server in the future. When this time comes, the Devices Requiring SNMP Monitoring should not need to change the host their configuration points at.</li>
+                        </ol>
+                    </div>
+                    <div class="section-block">
+                        <h4>
+                            Zabbix Server
+                        </h4>
+                        <h5>apache2 (Service)</h5>
+                        <ul>
+                            <li>apache2 runs as a service on the Zabbix Server. It front-ends the zabbix-server service allowing web access.</li>
+                            <li>apache2 listens on port 443.</li>
+                        </ul>
+                        <h5>snmpd (Service)</h5>
+                        <ul>
+                            <li>snmpd listens on port 161 and responds to any SNMP polling sent directly to the Zabbix Server.</li>
+                            <li>While snmpd is available to respond, this is not what the server is specifically built for (response to polling requests).</li>
+                        </ul>
+                        <h5>snmptrapd (Service)</h5>
+                        <ul>
+                            <li>snmptrapd listens on port 162 and responds to any incoming SNMP traps that are sent to it from Devices Requiring SNMP Monitoring on the network.</li>
+                            <li>It should be noted that, while there are many ways to process these traps, Zabbix recommends using the <a href="https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/misc/snmptrap/zabbix_trap_receiver.pl" target="_blank">zabbix_trap_receiver.pl</a>. I followed their best practices for this.
+                            <li>The snmptrapd service logs to the file at /var/log/snmptrapd.log
+                            <li>zabbix_trap_receiver.pl was set up to log to /var/log/snmptraps/snmptraps.log - From here, incoming SNMP traps can be viewed. Also, any issues with the zabbix_trap_receiver.pl can be seen during execution.</li>
+                        </ul>
+                        <h5>zabbix-agent (Service)</h5>
+                        <ul>
+                            <li>The zabbix-agent service is running and listens on port 10050</li>
+                            <li>This service collects and provides detailed system metrics to the Zabbix Server.</li>
+                        </ul>
+                        <h5>zabbix-server (Service)</h5>
+                        <ul>
+                            <li>The zabbix-server service is running and listens on port 10051</li>
+                            <li>This service performs SNMP polling to Devices Requiring SNMP Monitoring.</li>
+                            <li>This service alerts on any SNMP traps that are triggered.</li>
+                            <li>This service integrates with email, PagerDuty, and other systems to notify teams of "downed" devices.</li>
+                        </ul>
+                    </div>
+                    <div class="section-block">
+                        <h4>
+                            Zabbix Database Server
+                        </h4>
+                        <h5>postgresql (service)</h5>
+                        <ul>
+                            <li>A PostgreSQL backend supported Zabbix data storage, integrated into the existing infrastructure stack.</li>
+                        </ul>
+                    </div>
+                <h2>Automation and Code</h2>
+                    <div class="section-block">
+                        <h3>Overview</h3>
+                        <p>
+                            The client required Zabbix installations that were repeatable. I chose to do this with Puppet in their environment.
+                        </p>
+                        <p>
+                            I wrote a wrapper around the following Puppet Forge Module: <a href="https://forge.puppet.com/modules/puppet/zabbix/readme" target="_blank">Vop Pupuli zabbix module</a>
+                        </p>
+                        <p>
+                            I specifically architected it around this configuration: <a href="https://github.com/voxpupuli/puppet-zabbix/wiki/Multi-node-Zabbix-Server-setup" target="_blank">Multi node Zabbix Server setup</a>
+                        </p>
+                        <p>
+                            The authors detail various methods on this page for installing Zabbix. I chose the <a href="https://github.com/voxpupuli/puppet-zabbix/wiki/Multi-node-Zabbix-Server-setup#2-servers" target="_blank">2-server configuration with PostgreSQL as the database backend.</a>
+                        </p>
+                    </div>
+                    <h2>Challenges & Solutions</h2>
+                        <ul>
+                            <li>
+                                <b>Problem:</b> Devices did not support traditional monitoring agents<br>
+                                <b>Solution:</b> Implemented SNMP-based monitoring using both polling and trap mechanisms
+                            </li>
+
+                            <li>
+                                <b>Problem:</b> SNMP traps are one-way and can be unreliable<br>
+                                <b>Solution:</b> Combined trap-based alerting with polling to ensure visibility and validation
+                            </li>
+
+                            <li>
+                                <b>Problem:</b> Upstream Zabbix modules lacked required customization<br>
+                                <b>Solution:</b> Developed wrapper Puppet modules to extend functionality and standardize deployments
+                            </li>
+                        </ul>
+                    <h2>Outcome</h2>
+                        <p>
+                        Delivered a scalable monitoring solution for previously unsupported network devices, enabling real-time alerting and significantly improving visibility into hardware health. 
+                        Reduced incident detection time and improved response through integration with PagerDuty and email alerting systems.
+                        </p>
+            </p>
+        </article>
+
+        <aside data-sm="pad">
+          <section class="resume-section">
+            <h2>Résumé</h2>
+            <a href="../files/tyler_schrock_resume.pdf" target="_blank" class="resume-link">
+              <i data-lucide="file-text"></i>
+              <span>View PDF</span>
+            </a>
+          </section>
+          <section class="contact-section">
+            <h2>Contact Me</h2>
+            <form action="https://formspree.io/f/xeogabpa" method="POST">
+              <input type="text" name="name" required placeholder="Your Name">
+              <input type="email" name="email" required placeholder="Your Email">
+              <textarea name="message" required placeholder="Your Message"></textarea>
+              <button type="submit">Send</button>
+            </form>
+          </section>
+        
+          <section class="disclaimer">
+            <p>
+              This portfolio includes generalized summaries of projects I contributed to professionally. Proprietary code, credentials, and infrastructure details have been excluded.
+            </p>
+          </section>
+      </aside>
+
+        <footer data-sm="pad" data-md="colspan2" data-lg="colspan4">
+            Copyright &copy; 2026 - Tyler Schrock
+        </footer>
+    </main>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.accordion-toggle');
+    const content = document.querySelector('.accordion-content');
+    const icon = toggle.querySelector('i');
+
+    // Load the user's preference
+    const accordionState = localStorage.getItem('accordionState');
+
+    // Apply the state visually
+    if (accordionState === 'open') {
+      content.style.display = 'block';
+      icon.classList.remove('fa-chevron-down');
+      icon.classList.add('fa-chevron-up');
+    } else {
+      content.style.display = 'none';
+      icon.classList.remove('fa-chevron-up');
+      icon.classList.add('fa-chevron-down');
+    }
+
+    // Handle user toggling the accordion
+    toggle.addEventListener('click', () => {
+      const isOpen = content.style.display === 'block';
+      const newState = isOpen ? 'closed' : 'open';
+
+      content.style.display = isOpen ? 'none' : 'block';
+      localStorage.setItem('accordionState', newState);
+
+      icon.classList.toggle('fa-chevron-down');
+      icon.classList.toggle('fa-chevron-up');
+    });
+  });
+</script>
+<script>
+  lucide.createIcons();
+</script>
+<div id="imageModal" class="image-modal">
+  <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
+  <img id="imageModalImg" src="" alt="">
+</div>
+<script>
+  function openImageModal(src, alt) {
+    const modal = document.getElementById('imageModal');
+    const img = document.getElementById('imageModalImg');
+
+    if (!modal || !img) {
+      console.error('Image modal missing:', { modal, img });
+      return;
+    }
+
+    img.src = src;
+    img.alt = alt || 'Expanded image';
+    modal.classList.add('active');
+  }
+
+  function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') closeImageModal();
+  });
+</script>
+</body>
+</html>

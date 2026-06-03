@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Architecture | Tyler Schrock</title>
+    <link rel="stylesheet" href="css/responsive-attributes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <main data-sm="1column gap" data-md="2column gap" data-lg="4column gap">
+        <header data-sm="pad" data-md="colspan2" data-lg="colspan4 order1">
+            <div data-sm="center" class="site-title">Tyler Schrock</div>
+            <p class="subtitle">{Platform, Site Reliability, DevOps, System} Engineer</p>
+              <div class="social-icons">
+                <a href="https://github.com/tschrock5252" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank"><i class="fab fa-linkedin"></i></a>
+              </div>
+        </header>
+
+        <section class="menu-container" data-sm="pad" data-lg="order2">
+            <div class="menu">
+                <a href="index.html">Home</a>
+                <a href="about_me.html">About Me</a>
+                <a href="site_architecture.html">Site Architecture</a>
+                <div class="accordion">
+                  <button class="accordion-toggle">Projects <i class="fas fa-chevron-down"></i></button>
+                  <div class="accordion-content">
+                    <a href="projects/canonical_landscape.html" data-project>Canonical Landscape</a>
+                    <a href="projects/crowdstrike.html" data-project>Crowdstrike</a>
+                    <a href="projects/ibm_cdc.html" data-project>IBM Change Data Capture (CDC)</a>
+                    <a href="projects/jfrog_artifactory.html" data-project>JFrog Artifactory</a>
+                    <a href="projects/jfrog_xray.html" data-project>JFrog Xray</a>
+                    <a href="projects/openvpn_as.html" data-project>OpenVPN (Access Server)</a>
+                    <a href="projects/zabbix_snmp.html" data-project>Zabbix (SNMP Monitoring)</a>
+                    <a href="projects/zabbix_windows.html" data-project>Zabbix (Windows Monitoring)</a>
+                  </div>
+                </div>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/tschrock5252" target="_blank">GitHub</a>
+            </div>
+        </section>
+
+        <article data-sm="pad" data-md="colspan2">
+              <h2>Overview</h2>
+                  <p>I designed and built this site from the ground up without relying on a content management system or third-party hosting (though I may mirror it to Google Sites for broader exposure). The site is written in HTML and CSS, with some JavaScript powering interactive elements such as the accordion menu. All images are hosted locally, and the full source code is <a href="https://github.com/tschrock5252/tschrock52.com" target="_blank">available on GitHub</a>.</p>
+                  <p>Interestingly, the part I enjoyed most wasn't the UI design — it was building and deploying the site on a Kubernetes cluster in my home lab, applying production-grade engineering practices.</p>
+                  <h2>Architecture Diagram(s)</h2>
+                  <img src="../images/architecture_site.png" alt="Site Architecture" class="responsive-img">
+              <h3>Architecture Explanation</h3>
+                  <div class="section-block">
+                      <h4>
+                          Public Traffic Flow
+                      </h4>
+                      <h5>Client -> Firewall Edge</h5>
+                      <ul>
+                          <li>Public traffic resolves the DNS name tschrock52.com to my public IP address.</li>
+                          <li>Once traffic flows into my pfSense firewall on port 443, it hits an HAProxy frontend.</li>
+                          <li>The HAProxy frontend uses a wildcard certificate from LetsEncrypt to provide secure SSL encryption.</li>
+                          <li>HAProxy uses a backend tied to this frontend, with custom configuration options defined for routing and SSL handling.</li>
+                          <strong>HAProxy's Http check version:</strong>
+                          <pre><code class="language-bash">
+    HTTP/1.1\r\nHost:\ www.tschrock52.com\r\nAccept:\ */*
+                          </code></pre>
+                          <strong>HAProxy's Backend pass thru:</strong>
+                          <pre><code class="language-bash">
+    http-request set-header Host www.tschrock52.com
+                          </code></pre>
+                      </ul>
+                      <h5>MetalLB / kube-proxy / ingress -> Service </h5>
+                      <ul>
+                          <li>HAProxy’s backend forwards decrypted HTTP traffic to the MetalLB-assigned LoadBalancer IP (10.1.0.x) for the ingress-nginx-controller Service.</li>
+                              <ul>
+                                  <li>Note: The external IP is assigned by MetalLB's controller pod, enabling ingress-nginx-controller to receive traffic.</li>
+                              </ul>
+                          <li>kube-proxy on the node receives traffic for the external Load Balancer IP on a port (say 80 or 443).</li>
+                          <li>kube-proxy uses iptables/ipvs rules to forward the traffic to one of the ingress-nginx-controller Pods based on the Service definition.</li>
+                          <li>The ingress-nginx-controller pod processes the HTTP/HTTPS request based on configured Ingress rules.</li>
+                          <li>
+                              The ingress-nginx-controller uses the NGINX web server to process the request and route it to the correct service in the cluster (tschrock52-service).</li>
+                              <ul>
+                                  <li>Note: The NGINX web server is configured with a custom configMap that sets up a default backend for 404 errors.</li>
+                              </ul>
+                          </li>
+                      </ul>
+                      <h5>Service -> Site Pods -> Client</h5>
+                      <ul>
+                          <li>The tschrock52-service forwards the request to the correct pod (tschrock52-site-aaaaaaaaaa-bbbbb/tschrock52-site-xxxxxxxxxx-yyyyy).</li>
+                          <li>The pod processes the request and returns a response to the client.</li>
+                      </ul>
+                  </div>
+              <h2>Code</h2>
+                  <div class="section-block">
+                      <h3>deployment.yaml</h3>
+                          <p><strong>Source: </strong><a href="https://github.com/tschrock5252/tschrock52.com/blob/main/k8s_yaml/deployment.yaml">deployment.yaml</a></p>
+                          <pre><code class="language-yaml">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tschrock52-site
+  namespace: tschrock52
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tschrock52-site
+  template:
+    metadata:
+      labels:
+        app: tschrock52-site
+    spec:
+      containers:
+      - name: nginx
+        image: tschrock52/tschrock52-html-site:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tschrock52-service
+  namespace: tschrock52
+spec:
+  type: ClusterIP
+  selector:
+    app: tschrock52-site
+  ports:
+  - port: 80
+    targetPort: 80
+                          </code></pre>
+                      <h3>metallb-config.yaml</h3>
+                          <p><strong>Source: </strong><a href="https://github.com/tschrock5252/tschrock52.com/blob/main/k8s_yaml/metallb-config.yaml">metallb-config.yaml</a></p>
+                          <pre><code class="language-yaml">
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  namespace: metallb-system
+  name: tschrock52-pool
+spec:
+  addresses:
+  - 10.1.0.175-10.1.0.185
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  namespace: metallb-system
+  name: l2-adv
+                          </code></pre>
+                      <h3>tschrock52-ingress.yaml</h3>
+                          <p><strong>Source: </strong><a href="https://github.com/tschrock5252/tschrock52.com/blob/main/k8s_yaml/tschrock52-ingress.yaml">tschrock52-ingress.yaml</a></p>
+                          <pre><code class="language-yaml">
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tschrock52-ingress
+  namespace: tschrock52
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - host: www.tschrock52.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: tschrock52-service
+            port:
+              number: 80
+                          </code></pre>
+                          <h3>CI/CD</h3>
+                              <p>A full CI/CD pipeline using GitHub Actions or another similar tool wasn't built for this site.</p>
+                              <p>I built a lightweight, local CI/CD pipeline to support rapid and secure iteration with the following goals:</p>
+                              <ul>
+                                  <li>Integrate with VSCode so my changes could easily be saved and synced to a testing server (I did this with SFTP).</li>
+                                  <li>Automatically build the site image and re-redeploy it to Docker Hub every time I synced changes to the aforementioned testing server.</li>
+                                  <li>Automatically deployed the image to my Kubernetes cluster using the kubectl rollout command.</li>
+                              </ul>
+                              <hr />
+                              <p>To do this, I used a couple simple scripts:</p>
+                              <ol>
+                                  <li>A script named watcher.sh that ran consistently in a cron job on the aforementioned "testing" server.</li>
+                                      <ul>
+                                          <li>Note: This script detects changes any time they occur on the local file system of the testing server using inotifywait</li>
+                                      </ul>
+                                  <li>A script named autobuild.sh that was triggered by watcher.sh every time a change was detected by inotifywait. This script did the following:</li>
+                                      <ol>
+                                          <li>docker build -t tschrock52-html-site /var/www/html</li>
+                                          <li>docker tag tschrock52-html-site tschrock52/tschrock52-html-site</li>
+                                          <li>docker push tschrock52/tschrock52-html-site</li>
+                                          <li>kubectl rollout restart deployment tschrock52-site -n tschrock52</li>
+                                      </ol>
+                              </ol>
+                              <h4>CI/CD - Code</h4>
+                              <h5>watcher.sh</h5>
+                                  <p><strong>Source: </strong><a href="https://github.com/tschrock5252/tschrock52.com/blob/main/watcher.sh">watcher.sh</a></p>
+                                  <pre><code class="language-bash">
+#!/bin/bash
+
+# === CONFIG ===
+WATCH_DIR="/var/www/html/"
+TRIGGER_SCRIPT="/var/www/autobuild.sh"
+
+echo "Watching directory: $WATCH_DIR"
+echo "Changes will trigger: $TRIGGER_SCRIPT"
+
+# === Start watching ===
+inotifywait -m -r -e modify,create,delete,move "$WATCH_DIR" --format '%w%f' | while read file; do
+    echo "Detected change: $file"
+    echo "Running trigger script..."
+    bash "$TRIGGER_SCRIPT"
+done
+                                  </code></pre>
+                              <h5>autobuild.sh</h5>
+                                  <p><strong>Source: </strong><a href="https://github.com/tschrock5252/tschrock52.com/blob/main/autobuild.sh">autobuild.sh</a></p>
+                                  <pre><code class="language-bash">
+#!/bin/bash
+cd /var/www/html
+docker build -t tschrock52-html-site /var/www/html
+docker tag tschrock52-html-site tschrock52/tschrock52-html-site
+docker push tschrock52/tschrock52-html-site
+sleep 5
+kubectl rollout restart deployment tschrock52-site -n tschrock52
+                                  </code></pre>
+                  </div>
+        </article>
+
+        <aside data-sm="pad">
+          <section class="resume-section">
+            <h2>Résumé</h2>
+            <a href="files/tyler_schrock_resume.pdf" target="_blank" class="resume-link">
+              <i data-lucide="file-text"></i>
+              <span>View PDF</span>
+            </a>
+          </section>
+          <section class="contact-section">
+            <h2>Contact Me</h2>
+            <form action="https://formspree.io/f/xeogabpa" method="POST">
+              <input type="text" name="name" required placeholder="Your Name">
+              <input type="email" name="email" required placeholder="Your Email">
+              <textarea name="message" required placeholder="Your Message"></textarea>
+              <button type="submit">Send</button>
+            </form>
+          </section>
+        
+          <section class="disclaimer">
+            <p>
+              This portfolio includes generalized summaries of projects I contributed to professionally. Proprietary code, credentials, and infrastructure details have been excluded.
+            </p>
+          </section>
+        </aside>
+
+        <footer data-sm="pad" data-md="colspan2" data-lg="colspan4">
+            Copyright &copy; 2026 - Tyler Schrock
+        </footer>
+    </main>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.accordion-toggle');
+    const content = document.querySelector('.accordion-content');
+    const icon = toggle.querySelector('i');
+
+    // Load the user's preference
+    const accordionState = localStorage.getItem('accordionState');
+
+    // Apply the state visually
+    if (accordionState === 'open') {
+      content.style.display = 'block';
+      icon.classList.remove('fa-chevron-down');
+      icon.classList.add('fa-chevron-up');
+    } else {
+      content.style.display = 'none';
+      icon.classList.remove('fa-chevron-up');
+      icon.classList.add('fa-chevron-down');
+    }
+
+    // Handle user toggling the accordion
+    toggle.addEventListener('click', () => {
+      const isOpen = content.style.display === 'block';
+      const newState = isOpen ? 'closed' : 'open';
+
+      content.style.display = isOpen ? 'none' : 'block';
+      localStorage.setItem('accordionState', newState);
+
+      icon.classList.toggle('fa-chevron-down');
+      icon.classList.toggle('fa-chevron-up');
+    });
+  });
+</script>
+<script>
+  lucide.createIcons();
+</script>
+</body>
+</html>

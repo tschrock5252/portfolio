@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenVPN Access Server | Tyler Schrock</title>
+    <link rel="stylesheet" href="../css/responsive-attributes.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" href="../images/favicon.ico" type="image/x-icon">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <main data-sm="1column gap" data-md="2column gap" data-lg="4column gap">
+        <header data-sm="pad" data-md="colspan2" data-lg="colspan4 order1">
+            <div data-sm="center" class="site-title">Tyler Schrock</div>
+            <p class="subtitle">{Platform, Site Reliability, DevOps, System} Engineer</p>
+              <div class="social-icons">
+                <a href="https://github.com/tschrock5252" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank"><i class="fab fa-linkedin"></i></a>
+              </div>
+        </header>
+
+        <section class="menu-container" data-sm="pad" data-lg="order2">
+            <div class="menu">
+                <a href="../index.html">Home</a>
+                <a href="../about_me.html">About Me</a>
+                <a href="../site_architecture.html">Site Architecture</a>
+                <div class="accordion">
+                  <button class="accordion-toggle">Projects <i class="fas fa-chevron-down"></i></button>
+                  <div class="accordion-content">
+                    <a href="canonical_landscape.html" data-project>Canonical Landscape</a>
+                    <a href="crowdstrike.html" data-project>Crowdstrike</a>
+                    <a href="ibm_cdc.html" data-project>IBM Change Data Capture (CDC)</a>
+                    <a href="jfrog_artifactory.html" data-project>JFrog Artifactory</a>
+                    <a href="jfrog_xray.html" data-project>JFrog Xray</a>
+                    <a href="openvpn_as.html" data-project>OpenVPN (Access Server)</a>
+                    <a href="zabbix_snmp.html" data-project>Zabbix (SNMP Monitoring)</a>
+                    <a href="zabbix_windows.html" data-project>Zabbix (Windows Monitoring)</a>
+                  </div>
+                </div>
+                <a href="https://www.linkedin.com/in/tyler-schrock-a5243961/" target="_blank">LinkedIn</a>
+                <a href="https://github.com/tschrock5252" target="_blank">GitHub</a>
+            </div>
+        </section>
+
+        <article data-sm="pad" data-md="colspan2">
+          <h2>Overview</h2>
+          <p>
+            Designed and implemented an enterprise OpenVPN Access Server solution to provide secure, segmented access for external vendors using Okta-based authentication, local administrative separation, and network isolation.
+          </p>
+          <p>
+            The platform enabled vendors to access required internal resources without granting broad network access, while maintaining clear separation between administrative accounts, vendor accounts, and per-vendor access boundaries.
+          </p>
+
+          <h2>Key Highlights</h2>
+          <ul>
+            <li>Designed secure third-party VPN access using centralized identity provider integration</li>
+            <li>Implemented network segmentation through VLAN-based access boundaries</li>
+            <li>Separated administrative authentication from vendor authentication for stronger access control</li>
+            <li>Integrated centralized vendor authentication with Okta while retaining local administrative access</li>
+            <li>Built custom Icinga monitoring to validate service availability and reduce false positives</li>
+            <li>Supported vendor onboarding and access management through defined account and group structures</li>
+          </ul>
+
+          <h2>Architecture Diagram</h2>
+          <img src="../images/architecture_openvpn_as.png" alt="OpenVPN Access Server" class="responsive-img zoomable-img" onclick="openImageModal(this.src, this.alt)">
+          <p class="diagram-hint">Click diagram to enlarge.</p>
+          <h2>Architecture Explanation</h2>
+          <p>
+            The OpenVPN Access Server was positioned as a controlled access point between external vendors and internal organization resources. Vendor users authenticated through Okta and were assigned to OpenVPN groups that mapped to defined access boundaries.
+          </p>
+          <p>
+            Administrative access was intentionally separated from vendor access. Administrative and non-administrative access paths were separated to reduce privilege risk.
+          </p>
+          <p>
+            Network access was segmented by vendor group, reducing the risk of over-permissioned access and ensuring vendors could only reach the internal resources required for their work.
+          </p>
+
+          <h2>Access Control Design</h2>
+          <ul>
+            <li><strong>Administrative accounts:</strong> Local authentication, used only for platform administration</li>
+            <li><strong>Vendor accounts:</strong> Okta-authenticated, non-administrative VPN users</li>
+            <li><strong>Vendor groups:</strong> Used to organize access by vendor and apply appropriate network boundaries</li>
+            <li><strong>Network segmentation:</strong> VLAN-based access design limited vendor reachability to approved resources</li>
+          </ul>
+
+          <h2>Monitoring Approach</h2>
+          <p>
+            Icinga monitoring was implemented to validate OpenVPN Access Server availability without generating noisy or misleading alerts. The monitoring focused on whether the VPN service was running, reachable, and operational rather than alerting on client connection counts.
+          </p>
+          <p>
+            Improved monitoring checks to reduce false positives and provide cleaner service-health signals, and returned clean OK/CRITICAL states to Icinga. This improved alert reliability while preserving compatibility with existing monitoring patterns.
+          </p>
+
+          <h2>Challenges and Solutions</h2>
+          <ul>
+            <li>
+              <strong>Problem:</strong> External vendors required secure access to internal resources without broad network exposure<br>
+              <strong>Solution:</strong> Designed a segmented VPN access model using OpenVPN groups and network segmentation
+            </li>
+            <li>
+              <strong>Problem:</strong> Administrative and vendor authentication needed to remain separate<br>
+              <strong>Solution:</strong> Used local authentication for administrative accounts and Okta SAML authentication for vendor accounts
+            </li>
+            <li>
+              <strong>Problem:</strong> Native monitoring produced noisy output and false positives<br>
+              <strong>Solution:</strong> Built a custom Icinga wrapper to normalize monitoring results and suppress non-actionable errors
+            </li>
+            <li>
+              <strong>Problem:</strong> Vendor onboarding required repeatable access management<br>
+              <strong>Solution:</strong> Standardized vendor grouping and access patterns within OpenVPN Access Server
+            </li>
+          </ul>
+
+          <h2>Outcome</h2>
+          <p>
+            Delivered a secure vendor access platform that enabled external partners to reach required internal resources while preserving strong access boundaries and administrative separation.
+          </p>
+          <p>
+            The implementation improved vendor onboarding, reduced access risk through segmentation, and provided reliable operational monitoring through Icinga.
+          </p>
+        </article>
+
+        <aside data-sm="pad">
+          <section class="resume-section">
+            <h2>Résumé</h2>
+            <a href="../files/tyler_schrock_resume.pdf" target="_blank" class="resume-link">
+              <i data-lucide="file-text"></i>
+              <span>View PDF</span>
+            </a>
+          </section>
+          <section class="contact-section">
+            <h2>Contact Me</h2>
+            <form action="https://formspree.io/f/xeogabpa" method="POST">
+              <input type="text" name="name" required placeholder="Your Name">
+              <input type="email" name="email" required placeholder="Your Email">
+              <textarea name="message" required placeholder="Your Message"></textarea>
+              <button type="submit">Send</button>
+            </form>
+          </section>
+        
+          <section class="disclaimer">
+            <p>
+              This portfolio includes generalized summaries of projects I contributed to professionally. Proprietary code, credentials, and infrastructure details have been excluded.
+            </p>
+          </section>
+      </aside>
+
+        <footer data-sm="pad" data-md="colspan2" data-lg="colspan4">
+            Copyright &copy; 2026 - Tyler Schrock
+        </footer>
+    </main>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.querySelector('.accordion-toggle');
+    const content = document.querySelector('.accordion-content');
+    const icon = toggle.querySelector('i');
+
+    // Load the user's preference
+    const accordionState = localStorage.getItem('accordionState');
+
+    // Apply the state visually
+    if (accordionState === 'open') {
+      content.style.display = 'block';
+      icon.classList.remove('fa-chevron-down');
+      icon.classList.add('fa-chevron-up');
+    } else {
+      content.style.display = 'none';
+      icon.classList.remove('fa-chevron-up');
+      icon.classList.add('fa-chevron-down');
+    }
+
+    // Handle user toggling the accordion
+    toggle.addEventListener('click', () => {
+      const isOpen = content.style.display === 'block';
+      const newState = isOpen ? 'closed' : 'open';
+
+      content.style.display = isOpen ? 'none' : 'block';
+      localStorage.setItem('accordionState', newState);
+
+      icon.classList.toggle('fa-chevron-down');
+      icon.classList.toggle('fa-chevron-up');
+    });
+  });
+</script>
+<script>
+  lucide.createIcons();
+</script>
+<div id="imageModal" class="image-modal">
+  <span class="image-modal-close" onclick="closeImageModal()">&times;</span>
+  <img id="imageModalImg" src="" alt="">
+</div>
+<script>
+  function openImageModal(src, alt) {
+    const modal = document.getElementById('imageModal');
+    const img = document.getElementById('imageModalImg');
+
+    if (!modal || !img) {
+      console.error('Image modal missing:', { modal, img });
+      return;
+    }
+
+    img.src = src;
+    img.alt = alt || 'Expanded image';
+    modal.classList.add('active');
+  }
+
+  function closeImageModal() {
+    const modal = document.getElementById('imageModal');
+    if (modal) modal.classList.remove('active');
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') closeImageModal();
+  });
+</script>
+</body>
+</html>
