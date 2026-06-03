@@ -14,6 +14,7 @@ The site is intentionally simple: HTML, CSS, a small amount of JavaScript, local
 - `images/` - Architecture diagrams and supporting images.
 - `files/` - Static downloadable files, including the resume PDF.
 - `Dockerfile` - Nginx container image definition for serving the static site.
+- `.dockerignore` - Keeps Git metadata, local temp files, logs, and OS/editor artifacts out of Docker build contexts.
 
 ## Featured Project Areas
 
@@ -93,7 +94,7 @@ If offline or fully self-contained hosting is required, these assets should be v
 - Validate links after changing page paths or moving images.
 - Keep resume content in `files/` current.
 - When adding a new project, update the project navigation on each page or move the shared layout to a template/static-site generator.
-- Consider adding `.dockerignore` before publishing production images so local-only files are not copied into the Nginx image.
+- Keep `.dockerignore` current if local tooling, generated files, or private configuration files are added later.
 
 ## Future Improvements
 
