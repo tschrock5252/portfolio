@@ -110,8 +110,8 @@
                         <h5>snmptrapd (Service)</h5>
                         <ul>
                             <li>snmptrapd listens on port 162 and responds to any incoming SNMP traps that are sent to it from Devices Requiring SNMP Monitoring on the network.</li>
-                            <li>It should be noted that, while there are many ways to process these traps, Zabbix recommends using the <a href="https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/misc/snmptrap/zabbix_trap_receiver.pl" target="_blank" rel="noopener noreferrer">zabbix_trap_receiver.pl</a>. I followed their best practices for this.
-                            <li>The snmptrapd service logs to the file at /var/log/snmptrapd.log
+                            <li>It should be noted that, while there are many ways to process these traps, Zabbix recommends using the <a href="https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/misc/snmptrap/zabbix_trap_receiver.pl" target="_blank" rel="noopener noreferrer">zabbix_trap_receiver.pl</a>. I followed their best practices for this.</li>
+                            <li>The snmptrapd service logs to the file at /var/log/snmptrapd.log</li>
                             <li>zabbix_trap_receiver.pl was set up to log to /var/log/snmptraps/snmptraps.log - From here, incoming SNMP traps can be viewed. Also, any issues with the zabbix_trap_receiver.pl can be seen during execution.</li>
                         </ul>
                         <h5>zabbix-agent (Service)</h5>
